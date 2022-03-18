@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Todo.Tests
 {
-    public class UnitTest1
+    public class ControllerTest
     {
         [Fact]
         public void Test1()

@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Todo.Application;
+using Todo.Infra;
 
 namespace Todo
 {
@@ -32,6 +34,9 @@ namespace Todo
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Todo", Version = "v1" });
             });
+
+            services.AddApplication();
+            services.AddInfra();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +59,8 @@ namespace Todo
             {
                 endpoints.MapControllers();
             });
+
+            
         }
     }
 }
