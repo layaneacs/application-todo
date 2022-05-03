@@ -7,10 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Todo.Domain.Todo;
+using Todo.Controllers.Attribute.Filter;
 
 namespace Todo.Controllers.Todo
 {
     [ApiController]
+    [TypeFilter(typeof(ValidateIdentificatorAttribute))]
     [Route("[controller]")]
     public class TodoController : ControllerBase
     {
@@ -23,7 +25,7 @@ namespace Todo.Controllers.Todo
         }
 
         [HttpGet]        
-        public TodoOutput<List<TodoModel>> Get([FromHeader] Header header)
+        public TodoOutput<List<TodoModel>> GetAll([FromHeader] Header header)
         {
             var input = new TodoInput();
             input.SetIdentificador(header.IDENTIFICADOR);
@@ -31,7 +33,7 @@ namespace Todo.Controllers.Todo
         }
 
         [HttpPost]        
-        public  TodoOutput<bool> Post([FromHeader] Header header,[FromBody] TodoInput input)
+        public  TodoOutput<bool> CreateTodo([FromHeader] Header header,[FromBody] TodoInput input)
         {
             input.SetIdentificador(header.IDENTIFICADOR);
             return postHandler.Handler(input);
