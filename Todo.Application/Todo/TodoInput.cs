@@ -11,6 +11,5 @@ namespace Todo.Application.Todo
         {
             this.Identificador = id;
         }
-
     }
 }

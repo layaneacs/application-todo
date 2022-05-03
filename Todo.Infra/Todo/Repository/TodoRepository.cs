@@ -6,12 +6,18 @@ namespace Todo.Infra.Todo.Repository
 {
     public class TodoRepository : ITodoRepository
     {
-        private static List<TodoModel> lista = new List<TodoModel>(){
+        private static List<TodoModel> listaMockada = new List<TodoModel>(){
             new TodoModel(){
                 DataRegistro = System.DateTime.Now,
-                Descricao = "Fazer tal coisa",
+                Descricao = "Fazer tal coisa 1",
                 Status = Domain.ValueObject.Status.NOVO,
-                Titulo = "Titulo de tal"
+                Titulo = "Titulo de tal 1"
+            }, 
+            new TodoModel(){
+                DataRegistro = System.DateTime.Now,
+                Descricao = "Fazer tal coisa 2 ",
+                Status = Domain.ValueObject.Status.NOVO,
+                Titulo = "Titulo de tal 2"
             }
         };
 
@@ -21,13 +27,13 @@ namespace Todo.Infra.Todo.Repository
         }
         public List<TodoModel> GetAll()
         {
-            return lista;
+            return listaMockada;
         }
 
         public bool Save(TodoModel todo)
         {            
             try{
-                lista.Add(todo);
+                listaMockada.Add(todo);
                 return true;
             } catch {
                 return false;
