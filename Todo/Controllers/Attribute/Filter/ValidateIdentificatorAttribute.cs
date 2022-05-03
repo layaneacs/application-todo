@@ -1,10 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Todo.Domain.Service;
 
 namespace Todo.Controllers.Attribute.Filter
 {
     public class ValidateIdentificatorAttribute : ActionFilterAttribute
     {
+        private readonly IIdentificadorService _service;
+
+        public ValidateIdentificatorAttribute(IIdentificadorService service)
+        {
+            _service = service;
+        }
          public override void OnActionExecuting(ActionExecutingContext context)
         {
             var identificador = context.HttpContext.Request.Headers["X-IDENTIFICADOR"].ToString();
@@ -15,8 +22,13 @@ namespace Todo.Controllers.Attribute.Filter
                 return;
             }
 
-            //-- TODO; 
-            //verificar se o identificador é válido ( IdentificadorService )
+            var isValid = _service.IsValid(identificador);
+
+            if (!isValid)
+            {
+                context.Result = new UnauthorizedResult();
+                return;
+            }
         }
         
     }
