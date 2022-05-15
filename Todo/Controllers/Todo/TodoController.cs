@@ -8,6 +8,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Todo.Domain.Todo;
 using Todo.Controllers.Attribute.Filter;
+using Todo.Application.Todo.Handlers.Replace;
+using Todo.Application.Todo.Handlers.Create;
 
 namespace Todo.Controllers.Todo
 {
@@ -16,15 +18,15 @@ namespace Todo.Controllers.Todo
     [Route("[controller]")]
     public class TodoController : ControllerBase
     {
-        private readonly IGetTodoHandler getHandler;
-        private readonly IPostTodoHandler postHandler;
-        public TodoController(IGetTodoHandler getHandler, IPostTodoHandler postHandler)
+        private readonly ITodoReadHandler getHandler;
+        private readonly ITodoWriterHandler postHandler;
+        public TodoController(ITodoReadHandler getHandler, ITodoWriterHandler postHandler)
         {
             this.getHandler = getHandler;
             this.postHandler = postHandler;
         }
 
-        [HttpGet]        
+        [HttpGet("all")]        
         public TodoOutput<List<TodoModel>> GetAll([FromHeader] Header header)
         {
             var input = new TodoInput();
@@ -32,8 +34,15 @@ namespace Todo.Controllers.Todo
             return getHandler.Handler();
         }
 
-        [HttpPost]        
-        public  TodoOutput<bool> CreateTodo([FromHeader] Header header,[FromBody] TodoInput input)
+        [HttpPost("create")]        
+        public  TodoOutput<TodoModel> CreateTodo([FromHeader] Header header,[FromBody] TodoCreate input)
+        {
+            input.SetIdentificador(header.IDENTIFICADOR);
+            return postHandler.Handler(input);
+        }
+
+        [HttpPost("replace")]        
+        public  TodoOutput<TodoModel> ReplaceTodo([FromHeader] Header header,[FromBody] TodoReplace input)
         {
             input.SetIdentificador(header.IDENTIFICADOR);
             return postHandler.Handler(input);

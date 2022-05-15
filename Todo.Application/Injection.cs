@@ -7,8 +7,8 @@ namespace Todo.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection service)
         {
-            service.AddScoped<IGetTodoHandler, GetTodoHandler>();
-            service.AddScoped<IPostTodoHandler, PostTodoHandler>();
+            service.AddScoped<ITodoReadHandler,TodoReadHandler>();
+            service.AddScoped<ITodoWriterHandler, TodoWriterHandler>();
             
             return service;
         }

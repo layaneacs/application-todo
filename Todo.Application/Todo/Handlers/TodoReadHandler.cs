@@ -4,11 +4,11 @@ using Todo.Domain.Todo;
 
 namespace Todo.Application.Todo.Handlers
 {
-    public class GetTodoHandler : IGetTodoHandler
+    public class TodoReadHandler : ITodoReadHandler
     {
         private readonly ITodoRepository repository;
 
-        public GetTodoHandler(ITodoRepository repository)
+        public TodoReadHandler(ITodoRepository repository)
         {
             this.repository = repository;
         }     
