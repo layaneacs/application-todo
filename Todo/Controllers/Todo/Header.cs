@@ -4,7 +4,7 @@ namespace Todo.Controllers.Todo
 {
     public class Header
     {
-        [FromHeader]
+        [FromHeader(Name ="X-IDENTIFICADOR")]
         public string IDENTIFICADOR { get; set; }
     }
 }

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Todo.Domain.Repository;
 using Todo.Domain.Todo;
 
@@ -6,24 +8,10 @@ namespace Todo.Infra.Todo.Repository
 {
     public class TodoRepository : ITodoRepository
     {
-        private static List<TodoModel> listaMockada = new List<TodoModel>(){
-            new TodoModel(){
-                DataRegistro = System.DateTime.Now,
-                Descricao = "Fazer tal coisa 1",
-                Status = Domain.ValueObject.Status.NOVO,
-                Titulo = "Titulo de tal 1"
-            }, 
-            new TodoModel(){
-                DataRegistro = System.DateTime.Now,
-                Descricao = "Fazer tal coisa 2 ",
-                Status = Domain.ValueObject.Status.NOVO,
-                Titulo = "Titulo de tal 2"
-            }
-        };
+        private static List<TodoModel> listaMockada = new List<TodoModel>();        
 
         public TodoRepository()
         {
-            
         }
         public List<TodoModel> GetAll()
         {
@@ -37,8 +25,31 @@ namespace Todo.Infra.Todo.Repository
                 return true;
             } catch {
                 return false;
-            }
-            
+            }            
         }
+        public TodoModel GetById(string guid)
+        {
+            var todo = listaMockada.Where(x => x.Id == System.Guid.Parse(guid)).FirstOrDefault();
+            return todo;
+        }
+
+        public TodoModel GetById(Guid guid)
+        {
+            var todo = listaMockada.FirstOrDefault(x => x.Id == guid);
+            return todo;
+        }
+
+        public bool Replace (TodoModel todo)
+        {
+            var indice = listaMockada.FindIndex(x => x.Id == todo.Id);            
+            if(indice >= 0)
+            {
+                listaMockada[indice] = todo;
+                return true;
+            }  
+            return false;
+        }    
     }
 }
+
+ 
